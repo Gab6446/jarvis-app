@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { PhoneCall, Heart, CalendarHeart, Sparkles, MapPin, Syringe, Info, ArrowRight } from 'lucide-react';
+import { PhoneCall, Heart, CalendarHeart, Sparkles, MapPin, Syringe, Info, ArrowRight, MessageSquare, Stethoscope, User } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 export default function Dashboard({ setCurrentPage }) {
+  const { currentUser } = useAuth();
   const [progress, setProgress] = useState(0);
 
   // Animate the circular progress bar on mount
@@ -21,7 +23,7 @@ export default function Dashboard({ setCurrentPage }) {
       
       {/* Personalized Greeting Header */}
       <header className="page-header">
-        <h1 className="page-greeting">Good afternoon, Aisha 👋</h1>
+        <h1 className="page-greeting">Good afternoon, {currentUser?.name || 'there'} 👋</h1>
         <p style={{ fontSize: '1.25rem', color: 'var(--text-main)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
           <Sparkles color="var(--primary-color)" size={24} className="animate-float" />
           Your baby is growing beautifully today!
@@ -100,13 +102,16 @@ export default function Dashboard({ setCurrentPage }) {
               Drink at least 2.5L of water
             </li>
           </ul>
-          <button style={{ 
-            backgroundColor: 'white', border: 'none', color: '#db2777', 
-            padding: '0.75rem 1rem', borderRadius: 'var(--radius-md)', 
-            width: '100%', cursor: 'pointer', fontWeight: 700,
-            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem',
-            boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
-          }}>
+          <button 
+            style={{ 
+              backgroundColor: 'white', border: 'none', color: '#db2777', 
+              padding: '0.75rem 1rem', borderRadius: 'var(--radius-md)', 
+              width: '100%', cursor: 'pointer', fontWeight: 700,
+              display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem',
+              boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
+            }}
+            onClick={() => setCurrentPage('mealplan')}
+          >
             View Full Meal Plan <ArrowRight size={16} />
           </button>
         </div>
@@ -132,6 +137,34 @@ export default function Dashboard({ setCurrentPage }) {
               <MapPin size={14} /> General Hospital, Ikeja
             </p>
           </div>
+        </div>
+
+        <div className="card glass-panel" style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          <h2 className="card-title">Quick Actions</h2>
+          
+          <button 
+            className="btn btn-primary" 
+            style={{ width: '100%', justifyContent: 'flex-start', padding: '1rem' }}
+            onClick={() => setCurrentPage('consult')}
+          >
+            <MessageSquare size={20} /> Talk to a Specialist
+          </button>
+          
+          <button 
+            className="btn btn-outline" 
+            style={{ width: '100%', justifyContent: 'flex-start', padding: '1rem' }}
+            onClick={() => setCurrentPage('records')}
+          >
+            <Stethoscope size={20} /> Review Medical Records
+          </button>
+
+          <button 
+            className="btn btn-outline" 
+            style={{ width: '100%', justifyContent: 'flex-start', padding: '1rem' }}
+            onClick={() => setCurrentPage('settings')}
+          >
+            <User size={20} /> Update Emergency Profile
+          </button>
         </div>
 
         <div className="card" style={{ display: 'flex', gap: '1.25rem', alignItems: 'center', padding: '1.5rem' }}>

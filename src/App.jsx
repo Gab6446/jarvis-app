@@ -1,38 +1,47 @@
 import React, { useState } from 'react';
+import { AuthProvider, useAuth } from './context/AuthContext';
 import Sidebar from './components/Sidebar';
 import Dashboard from './pages/Dashboard';
 import Emergency from './pages/Emergency';
 import Records from './pages/Records';
 import Onboarding from './pages/Onboarding';
+import Settings from './pages/Settings';
+import Consultation from './pages/Consultation';
+import Education from './pages/Education';
+import MealPlan from './pages/MealPlan';
 import './index.css';
 
-function App() {
+function AppContent() {
   const [currentPage, setCurrentPage] = useState('onboarding');
+  const { currentUser, logout } = useAuth();
+
+  function handleLogout() {
+    logout();
+    setCurrentPage('onboarding');
+  }
 
   return (
     <div className="app-container">
-      {currentPage !== 'onboarding' && <Sidebar currentPage={currentPage} setCurrentPage={setCurrentPage} />}
+      {currentPage !== 'onboarding' && <Sidebar currentPage={currentPage} setCurrentPage={setCurrentPage} userName={currentUser?.name} onLogout={handleLogout} />}
       
       {/* Dynamic Page Rendering */}
       {currentPage === 'onboarding' && <Onboarding setCurrentPage={setCurrentPage} />}
       {currentPage === 'dashboard' && <Dashboard setCurrentPage={setCurrentPage} />}
       {currentPage === 'emergency' && <Emergency />}
       {currentPage === 'records' && <Records />}
-      {currentPage === 'consult' && (
-        <div className="main-content flex-center">
-          <div className="card glass-panel" style={{ textAlign: 'center', maxWidth: '400px' }}>
-            <h2 className="card-title" style={{ justifyContent: 'center', flexWrap: 'wrap' }}>
-              Telemedicine Consultation
-            </h2>
-            <p>Connect with available specialists via video or text.</p>
-            <div style={{ padding: '2rem', backgroundColor: 'var(--bg-color)', borderRadius: 'var(--radius-md)', margin: '1rem 0' }}>
-              <span className="status-dot active"></span> <span style={{ marginLeft: '0.5rem' }}>3 Specialists Online</span>
-            </div>
-            <button className="btn btn-primary" style={{ width: '100%' }}>Start Consultation</button>
-          </div>
-        </div>
-      )}
+      {currentPage === 'consult' && <Consultation />}
+      {currentPage === 'education' && <Education />}
+      {currentPage === 'mealplan' && <MealPlan />}
+      {currentPage === 'settings' && <Settings />}
     </div>
+  );
+}
+
+function App() {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
   );
 }
 

@@ -6,115 +6,108 @@ import {
   MessageSquare, 
   Settings,
   User,
-  LogOut
+  LogOut,
+  BookOpen
 } from 'lucide-react';
 
-export default function Sidebar({ currentPage, setCurrentPage }) {
+export default function Sidebar({ currentPage, setCurrentPage, userName, onLogout }) {
   const navItems = [
     { id: 'dashboard', label: 'Dashboard', icon: Home },
     { id: 'emergency', label: 'Emergency', icon: AlertTriangle, danger: true },
     { id: 'records', label: 'Health Records', icon: FileText },
     { id: 'consult', label: 'Consultation', icon: MessageSquare },
+    { id: 'education', label: 'Education Hub', icon: BookOpen },
   ];
 
   return (
     <aside style={{
       width: 'var(--sidebar-width)',
+      height: '100vh',
       backgroundColor: 'var(--surface-color)',
       borderRight: '1px solid var(--border-color)',
       display: 'flex',
       flexDirection: 'column',
-      height: '100%',
-      zIndex: 10
-    }} className="hide-on-mobile">
-      
-      {/* Logo Area */}
-      <div style={{
-        padding: '1.5rem',
-        borderBottom: '1px solid var(--border-color)',
-        display: 'flex',
-        alignItems: 'center',
-        gap: '0.75rem'
+      padding: '2rem 1rem',
+      flexShrink: 0,
+      overflow: 'hidden'
+    }}>
+
+      {/* Logo */}
+      <div style={{ 
+        display: 'flex', alignItems: 'center', gap: '0.75rem', 
+        padding: '0 0.75rem', marginBottom: '2.5rem' 
       }}>
-        <div style={{
-          width: '40px',
-          height: '40px',
-          borderRadius: 'var(--radius-md)',
-          background: 'linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          color: 'white',
-          fontWeight: 'bold',
-          fontSize: '1.5rem'
-        }}>J</div>
+        <div style={{ 
+          width: '36px', height: '36px', 
+          background: 'linear-gradient(135deg, var(--primary-color), var(--secondary-color))',
+          borderRadius: 'var(--radius-sm)', display: 'flex', alignItems: 'center', justifyContent: 'center',
+          color: 'white', fontWeight: 800, fontSize: '1rem'
+        }}>
+          J
+        </div>
         <div>
-          <h1 style={{ fontSize: '1.25rem', marginBottom: 0, lineHeight: 1 }}>JARVIS</h1>
-          <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Smart Health Provider</span>
+          <strong style={{ fontSize: '1.125rem', letterSpacing: '-0.03em', color: '#2d3748' }}>JARVIS</strong>
+          <span style={{ display: 'block', fontSize: '0.7rem', color: 'var(--text-muted)' }}>Smart Health Provider</span>
         </div>
       </div>
 
       {/* Navigation */}
-      <nav style={{ flex: 1, padding: '1.5rem 1rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-        <p style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-muted)', marginBottom: '0.5rem', paddingLeft: '0.75rem' }}>Menu</p>
-        
-        {navItems.map((item) => {
-          const Icon = item.icon;
-          const isActive = currentPage === item.id;
-          return (
-            <button
-              key={item.id}
-              onClick={() => setCurrentPage(item.id)}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.75rem',
-                width: '100%',
-                padding: '0.75rem 1rem',
-                borderRadius: 'var(--radius-md)',
-                border: 'none',
-                backgroundColor: isActive 
-                  ? (item.danger ? 'var(--danger-color)' : 'var(--primary-color)') 
-                  : 'transparent',
-                color: isActive ? 'white' : 'var(--text-main)',
-                cursor: 'pointer',
-                textAlign: 'left',
-                fontWeight: isActive ? 600 : 500,
-                transition: 'all 0.2s',
-                animation: item.danger && isActive ? 'pulse-danger 2s infinite' : 'none',
-                boxShadow: isActive ? 'var(--shadow-sm)' : 'none'
-              }}
-              onMouseEnter={(e) => {
-                if(!isActive) e.currentTarget.style.backgroundColor = 'var(--bg-color)';
-              }}
-              onMouseLeave={(e) => {
-                if(!isActive) e.currentTarget.style.backgroundColor = 'transparent';
-              }}
-            >
-              <Icon size={20} color={isActive ? 'white' : (item.danger && !isActive ? 'var(--danger-color)' : 'var(--text-muted)')} />
-              <span style={{ color: item.danger && !isActive ? 'var(--danger-color)' : 'inherit' }}>
-                {item.label}
-              </span>
-            </button>
-          );
-        })}
+      <nav style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+        {navItems.map(item => (
+          <button
+            key={item.id}
+            onClick={() => setCurrentPage(item.id)}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.75rem',
+              padding: '0.75rem 1rem',
+              borderRadius: 'var(--radius-md)',
+              border: 'none',
+              cursor: 'pointer',
+              fontSize: '0.95rem',
+              fontWeight: currentPage === item.id ? 600 : 400,
+              backgroundColor: currentPage === item.id 
+                ? (item.danger ? 'rgba(225,29,72,0.08)' : 'var(--bg-color)') 
+                : 'transparent',
+              color: currentPage === item.id 
+                ? (item.danger ? 'var(--danger-color)' : 'var(--primary-dark)')
+                : 'var(--text-muted)',
+              transition: 'all 0.2s',
+              fontFamily: 'inherit'
+            }}
+          >
+            <item.icon size={20} />
+            {item.label}
+          </button>
+        ))}
       </nav>
 
-      {/* User Profile */}
-      <div style={{ padding: '1.5rem', borderTop: '1px solid var(--border-color)' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem' }}>
-          <div className="avatar">A</div>
-          <div style={{ flex: 1, overflow: 'hidden' }}>
-            <p style={{ margin: 0, fontWeight: 600, fontSize: '0.875rem', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>Aisha Bello</p>
-            <p style={{ margin: 0, fontSize: '0.75rem', color: 'var(--text-muted)' }}>Week 24 Pregnant</p>
+      {/* User Profile Footer */}
+      <div style={{ 
+        borderTop: '1px solid var(--border-color)', 
+        paddingTop: '1.5rem', 
+        display: 'flex', flexDirection: 'column', gap: '0.75rem' 
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0 0.5rem' }}>
+          <div className="avatar">
+            {userName ? userName.charAt(0).toUpperCase() : 'U'}
+          </div>
+          <div style={{ flex: 1 }}>
+            <strong style={{ fontSize: '0.9rem', display: 'block', color: '#2d3748' }}>{userName || 'User'}</strong>
+            <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Patient</span>
           </div>
         </div>
         
         <div style={{ display: 'flex', gap: '0.5rem' }}>
-          <button className="btn btn-outline" style={{ flex: 1, padding: '0.5rem', fontSize: '0.75rem' }}>
+          <button 
+            className="btn btn-outline" 
+            onClick={() => setCurrentPage('settings')}
+            style={{ flex: 1, padding: '0.5rem', fontSize: '0.75rem', backgroundColor: currentPage === 'settings' ? 'var(--primary-light)' : 'transparent', color: currentPage === 'settings' ? 'white' : 'inherit' }}
+          >
             <Settings size={16} />
           </button>
-          <button className="btn btn-outline" style={{ flex: 1, padding: '0.5rem', fontSize: '0.75rem', color: 'var(--danger-color)', borderColor: 'var(--danger-light)' }}>
+          <button className="btn btn-outline" onClick={onLogout} style={{ flex: 1, padding: '0.5rem', fontSize: '0.75rem', color: 'var(--danger-color)', borderColor: 'var(--danger-light)' }}>
             <LogOut size={16} />
           </button>
         </div>

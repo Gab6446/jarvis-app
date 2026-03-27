@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { HeartPulse, CheckCircle2, User, Activity, CalendarDays, ArrowRight, ArrowLeft, LogIn, Smile } from 'lucide-react';
+import { HeartPulse, CheckCircle2, User, Activity, ArrowRight, ArrowLeft, LogIn, Smile } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 export default function Onboarding({ setCurrentPage }) {
@@ -38,6 +38,9 @@ export default function Onboarding({ setCurrentPage }) {
     register(userData);
     setCurrentPage('dashboard');
   }
+
+  const inputStyle = { width: '100%', padding: '1rem', borderRadius: 'var(--radius-md)', border: '2px solid var(--border-color)', fontSize: '1rem', outline: 'none', fontFamily: 'inherit' };
+  const selectStyle = { ...inputStyle, backgroundColor: 'white' };
 
   return (
     <div style={{ flex: 1, display: 'flex', flexDirection: 'column', height: '100vh', backgroundColor: 'var(--bg-color)', overflowY: 'auto' }}>
@@ -96,11 +99,11 @@ export default function Onboarding({ setCurrentPage }) {
               <div className="grid">
                 <div>
                   <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.5rem' }}>Your Name</label>
-                  <input type="text" placeholder="e.g., Aisha" value={name} onChange={e => setName(e.target.value)} style={{ width: '100%', padding: '1rem', borderRadius: 'var(--radius-md)', border: '2px solid var(--border-color)', fontSize: '1rem', outline: 'none' }} />
+                  <input type="text" placeholder="e.g., Aisha" value={name} onChange={e => setName(e.target.value)} style={inputStyle} />
                 </div>
                 <div>
                   <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.5rem' }}>Date of Birth</label>
-                  <input type="date" value={dob} onChange={e => setDob(e.target.value)} style={{ width: '100%', padding: '1rem', borderRadius: 'var(--radius-md)', border: '2px solid var(--border-color)', fontSize: '1rem', outline: 'none', fontFamily: 'inherit' }} />
+                  <input type="date" value={dob} onChange={e => setDob(e.target.value)} style={inputStyle} />
                 </div>
               </div>
 
@@ -115,13 +118,13 @@ export default function Onboarding({ setCurrentPage }) {
             </div>
           )}
 
-          {/* === REGISTER MODE === */}
+          {/* === STEP 1: Personal Info === */}
           {mode === 'register' && step === 1 && (
             <div>
               <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '2rem' }}>
-                 <div style={{ width: '64px', height: '64px', backgroundColor: 'var(--primary-light)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white' }}>
-                    <User size={32} />
-                 </div>
+                <div style={{ width: '64px', height: '64px', backgroundColor: 'var(--primary-light)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white' }}>
+                  <User size={32} />
+                </div>
               </div>
               <h1 style={{ textAlign: 'center', marginBottom: '0.5rem', color: '#2d3748' }}>Welcome to JARVIS</h1>
               <p style={{ textAlign: 'center', marginBottom: '2.5rem', fontSize: '1.125rem' }}>Let's personalize your care journey. What should we call you?</p>
@@ -129,22 +132,23 @@ export default function Onboarding({ setCurrentPage }) {
               <div className="grid">
                 <div>
                   <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.5rem' }}>Preferred Name</label>
-                  <input type="text" placeholder="e.g., Aisha" value={name} onChange={e => setName(e.target.value)} style={{ width: '100%', padding: '1rem', borderRadius: 'var(--radius-md)', border: '2px solid var(--border-color)', fontSize: '1rem', outline: 'none' }} />
+                  <input type="text" placeholder="e.g., Aisha" value={name} onChange={e => setName(e.target.value)} style={inputStyle} />
                 </div>
                 <div>
                   <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.5rem' }}>Date of Birth</label>
-                  <input type="date" value={dob} onChange={e => setDob(e.target.value)} style={{ width: '100%', padding: '1rem', borderRadius: 'var(--radius-md)', border: '2px solid var(--border-color)', fontSize: '1rem', outline: 'none', fontFamily: 'inherit' }} />
+                  <input type="date" value={dob} onChange={e => setDob(e.target.value)} style={inputStyle} />
                 </div>
               </div>
             </div>
           )}
 
+          {/* === STEP 2: Health Profile / Lifestyle === */}
           {mode === 'register' && step === 2 && (
             <div>
               <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '2rem' }}>
-                 <div style={{ width: '64px', height: '64px', backgroundColor: '#8b5cf6', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white' }}>
-                    <Smile size={32} />
-                 </div>
+                <div style={{ width: '64px', height: '64px', backgroundColor: '#8b5cf6', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white' }}>
+                  <Smile size={32} />
+                </div>
               </div>
               <h1 style={{ textAlign: 'center', marginBottom: '0.5rem', color: '#2d3748' }}>Health Profile</h1>
               <p style={{ textAlign: 'center', marginBottom: '2.5rem', fontSize: '1.125rem' }}>Help us personalize your health recommendations.</p>
@@ -152,7 +156,7 @@ export default function Onboarding({ setCurrentPage }) {
               <div className="grid">
                 <div>
                   <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.5rem' }}>Do you smoke or use tobacco?</label>
-                  <select value={smoker} onChange={e => setSmoker(e.target.value)} style={{ width: '100%', padding: '1rem', borderRadius: 'var(--radius-md)', border: '2px solid var(--border-color)', fontSize: '1rem', outline: 'none', fontFamily: 'inherit', backgroundColor: 'white' }}>
+                  <select value={smoker} onChange={e => setSmoker(e.target.value)} style={selectStyle}>
                     <option value="">Select...</option>
                     <option value="no">No</option>
                     <option value="yes">Yes</option>
@@ -161,7 +165,7 @@ export default function Onboarding({ setCurrentPage }) {
                 </div>
                 <div>
                   <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.5rem' }}>How often do you exercise?</label>
-                  <select value={exercise} onChange={e => setExercise(e.target.value)} style={{ width: '100%', padding: '1rem', borderRadius: 'var(--radius-md)', border: '2px solid var(--border-color)', fontSize: '1rem', outline: 'none', fontFamily: 'inherit', backgroundColor: 'white' }}>
+                  <select value={exercise} onChange={e => setExercise(e.target.value)} style={selectStyle}>
                     <option value="">Select...</option>
                     <option value="daily">Daily</option>
                     <option value="weekly">A few times a week</option>
@@ -171,25 +175,26 @@ export default function Onboarding({ setCurrentPage }) {
                 </div>
                 <div style={{ gridColumn: 'span 2' }}>
                   <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.5rem' }}>Primary wellness goal</label>
-                  <select value={wellnessGoal} onChange={e => setWellnessGoal(e.target.value)} style={{ width: '100%', padding: '1rem', borderRadius: 'var(--radius-md)', border: '2px solid var(--border-color)', fontSize: '1rem', outline: 'none', fontFamily: 'inherit', backgroundColor: 'white' }}>
+                  <select value={wellnessGoal} onChange={e => setWellnessGoal(e.target.value)} style={selectStyle}>
                     <option value="">Select...</option>
                     <option value="emergency">Emergency Preparedness</option>
                     <option value="chronic">Chronic Disease Management</option>
-                    <option value="maternal">Maternal & Family Health</option>
+                    <option value="maternal">Maternal &amp; Family Health</option>
                     <option value="general">General Health Monitoring</option>
-                    <option value="fitness">Fitness & Active Lifestyle</option>
+                    <option value="fitness">Fitness &amp; Active Lifestyle</option>
                   </select>
                 </div>
               </div>
             </div>
           )}
 
+          {/* === STEP 3: Medical History === */}
           {mode === 'register' && step === 3 && (
             <div>
               <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '2rem' }}>
-                 <div style={{ width: '64px', height: '64px', backgroundColor: 'var(--secondary-color)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white' }}>
-                    <Activity size={32} />
-                 </div>
+                <div style={{ width: '64px', height: '64px', backgroundColor: 'var(--secondary-color)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white' }}>
+                  <Activity size={32} />
+                </div>
               </div>
               <h1 style={{ textAlign: 'center', marginBottom: '0.5rem', color: '#2d3748' }}>Medical History</h1>
               <p style={{ textAlign: 'center', marginBottom: '2.5rem', fontSize: '1.125rem' }}>This helps first responders provide the best care during an emergency.</p>
@@ -197,19 +202,20 @@ export default function Onboarding({ setCurrentPage }) {
               <div className="grid">
                 <div style={{ gridColumn: 'span 2' }}>
                   <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.5rem' }}>Pre-existing Conditions</label>
-                  <input type="text" placeholder="e.g., Asthma, Hypertension, Diabetes, None" value={preExisting} onChange={e => setPreExisting(e.target.value)} style={{ width: '100%', padding: '1rem', borderRadius: 'var(--radius-md)', border: '2px solid var(--border-color)', fontSize: '1rem', outline: 'none', fontFamily: 'inherit' }} />
+                  <input type="text" placeholder="e.g., Asthma, Hypertension, Diabetes, None" value={preExisting} onChange={e => setPreExisting(e.target.value)} style={inputStyle} />
                   <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '0.5rem' }}>List any major chronic conditions or previous major surgeries.</p>
                 </div>
               </div>
             </div>
           )}
 
-          {mode === 'register' && step === 3 && (
+          {/* === STEP 4: Emergency Baselines === */}
+          {mode === 'register' && step === 4 && (
             <div>
               <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '2rem' }}>
-                 <div style={{ width: '64px', height: '64px', backgroundColor: 'var(--danger-color)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white' }}>
-                    <HeartPulse size={32} />
-                 </div>
+                <div style={{ width: '64px', height: '64px', backgroundColor: 'var(--danger-color)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white' }}>
+                  <HeartPulse size={32} />
+                </div>
               </div>
               <h1 style={{ textAlign: 'center', marginBottom: '0.5rem', color: '#2d3748' }}>Emergency Baselines</h1>
               <p style={{ textAlign: 'center', marginBottom: '2.5rem', fontSize: '1.125rem' }}>Critical data for first responders. Your data is encrypted.</p>
@@ -217,7 +223,7 @@ export default function Onboarding({ setCurrentPage }) {
               <div className="grid">
                 <div>
                   <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.5rem' }}>Blood Type</label>
-                  <select value={bloodType} onChange={e => setBloodType(e.target.value)} style={{ width: '100%', padding: '1rem', borderRadius: 'var(--radius-md)', border: '2px solid var(--border-color)', fontSize: '1rem', outline: 'none', fontFamily: 'inherit', backgroundColor: 'white' }}>
+                  <select value={bloodType} onChange={e => setBloodType(e.target.value)} style={selectStyle}>
                     <option value="">I don't know</option>
                     <option value="A+">A+</option>
                     <option value="A-">A-</option>
@@ -231,7 +237,7 @@ export default function Onboarding({ setCurrentPage }) {
                 </div>
                 <div>
                   <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.5rem' }}>Known Allergies</label>
-                  <input type="text" placeholder="e.g., Penicillin, Latex" value={allergies} onChange={e => setAllergies(e.target.value)} style={{ width: '100%', padding: '1rem', borderRadius: 'var(--radius-md)', border: '2px solid var(--border-color)', fontSize: '1rem', outline: 'none' }} />
+                  <input type="text" placeholder="e.g., Penicillin, Latex" value={allergies} onChange={e => setAllergies(e.target.value)} style={inputStyle} />
                 </div>
               </div>
             </div>

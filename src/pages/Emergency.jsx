@@ -105,9 +105,9 @@ export default function Emergency() {
           zoomControl={true}
           attributionControl={false}
         >
-          {/* Google Maps-style light tiles (Stadia Alidade Smooth) */}
+          {/* Dark-mode Carto tiles — no API key required */}
           <TileLayer
-            url="https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png"
+            url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
           />
           
           <Marker position={userPos} icon={userIcon}>

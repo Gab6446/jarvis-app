@@ -1,43 +1,70 @@
 import React from 'react';
-import { BookOpen, AlertCircle, ShieldAlert, Heart, PlayCircle, ChevronRight, FileText } from 'lucide-react';
+import { BookOpen, AlertCircle, ShieldAlert, Heart, PlayCircle, ChevronRight, FileText, Stethoscope, Activity, Wind } from 'lucide-react';
 
 export default function Education() {
   const modules = [
     {
-      title: "Recognizing Pregnancy Emergencies",
+      title: "Heart Attack Warning Signs",
       category: "Critical Awareness",
       icon: ShieldAlert,
       color: "var(--danger-color)",
       bg: "var(--danger-light)",
       duration: "5 min read",
-      description: "Learn the 7 major warning signs during pregnancy that require immediate use of the JARVIS SOS button."
+      description: "Learn the key warning signs of a heart attack — chest tightness, arm pain, nausea — and exactly when to trigger the JARVIS SOS button."
     },
     {
-      title: "First Responder CPR for Infants",
+      title: "Adult CPR Step-by-Step",
       category: "Video Guide",
       icon: PlayCircle,
       color: "var(--accent-color)",
       bg: "var(--accent-light)",
-      duration: "12 min watch",
-      description: "Essential life-saving techniques every parent and guardian should know before the ambulance arrives."
+      duration: "10 min watch",
+      description: "Life-saving chest compression techniques every adult should know. Learn the 100-120 beats/min rhythm before the ambulance arrives."
     },
     {
-      title: "Managing Preeclampsia Risks",
+      title: "Stroke: Act F.A.S.T.",
+      category: "Emergency Response",
+      icon: Activity,
+      color: "#7c3aed",
+      bg: "#ede9fe",
+      duration: "4 min read",
+      description: "Face drooping, Arm weakness, Speech difficulty, Time to call. Recognize stroke signs and take action within the critical 3-hour window."
+    },
+    {
+      title: "Managing Hypertension at Home",
+      category: "Chronic Disease",
+      icon: Stethoscope,
+      color: "#0ea5e9",
+      bg: "#e0f2fe",
+      duration: "8 min read",
+      description: "Daily habits, dietary restrictions, and medication compliance that reduce risk of a hypertensive crisis and keep your readings in a healthy range."
+    },
+    {
+      title: "Choking Response (Heimlich)",
+      category: "First Aid",
+      icon: Wind,
+      color: "#f97316",
+      bg: "#ffedd5",
+      duration: "3 min read",
+      description: "Step-by-step Heimlich maneuver for adults and children. Know when to apply back blows versus abdominal thrusts."
+    },
+    {
+      title: "High-Risk Pregnancy Warning Signs",
       category: "Maternal Health",
       icon: Heart,
       color: "var(--secondary-color)",
       bg: "var(--secondary-light)",
-      duration: "8 min read",
-      description: "Understanding blood pressure spikes, recognizing symptoms early, and mitigating risks at home."
+      duration: "6 min read",
+      description: "Preeclampsia, gestational diabetes, and fetal movement changes — warning signs every expectant mother and her family should recognize."
     },
     {
-      title: "Preparing Your Emergency Go-Bag",
+      title: "Build Your Emergency Kit",
       category: "Preparation Checklist",
       icon: AlertCircle,
       color: "var(--warning-color)",
       bg: "var(--warning-light)",
       duration: "Interactive File",
-      description: "A comprehensive checklist of what to pack for the hospital when you go into labor or during an emergency."
+      description: "A comprehensive home emergency checklist — from first aid supplies and medication lists to evacuation routes and ICE contact cards."
     }
   ];
 
@@ -45,9 +72,9 @@ export default function Education() {
     <div className="main-content">
       <header className="page-header" style={{ marginBottom: '2rem' }}>
         <h1 className="page-greeting" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-          <BookOpen color="var(--primary-color)" /> Public Awareness & Education
+          <BookOpen color="var(--primary-color)" /> Health Education & First Aid
         </h1>
-        <p className="page-subtitle">Life-saving information to empower you during health emergencies and your continuous maternal journey. Curated by top medical professionals.</p>
+        <p className="page-subtitle">Life-saving knowledge for any emergency. Curated by top medical professionals and updated regularly.</p>
       </header>
 
       {/* Featured Alert Module */}
@@ -56,9 +83,9 @@ export default function Education() {
           <div style={{ display: 'inline-block', backgroundColor: '#e11d48', color: 'white', padding: '0.25rem 0.75rem', borderRadius: 'var(--radius-full)', fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '1rem' }}>
             Featured Emergency Guide
           </div>
-          <h2 style={{ fontSize: '1.75rem', color: '#881337', margin: '0 0 1rem 0' }}>How to React to Sudden Hemorrhage</h2>
+          <h2 style={{ fontSize: '1.75rem', color: '#881337', margin: '0 0 1rem 0' }}>Responding to Sudden Cardiac Arrest</h2>
           <p style={{ color: '#be123c', fontSize: '1.125rem', marginBottom: '1.5rem', lineHeight: 1.6 }}>
-            Postpartum or antenatal hemorrhage requires immediate, coordinated response. Learn the exact elevation techniques and exactly when to hit the JARVIS Dispatch button to maximize your survival window.
+            When someone collapses unresponsive, every second counts. Learn exactly when to start CPR, how to use an AED, and how to coordinate with JARVIS Emergency Dispatch to maximize survival.
           </p>
           <button className="btn btn-danger" style={{ padding: '0.75rem 1.5rem' }}>
             <FileText size={18} /> Read Complete Guide
@@ -69,7 +96,7 @@ export default function Education() {
         </div>
       </div>
 
-      <h2 style={{ fontSize: '1.5rem', color: '#2d3748', marginBottom: '1.5rem' }}>Essential Learning Modules</h2>
+      <h2 style={{ fontSize: '1.5rem', color: '#2d3748', marginBottom: '1.5rem' }}>Learning Modules</h2>
       
       <div className="grid grid-cols-2">
         {modules.map((mod, idx) => (

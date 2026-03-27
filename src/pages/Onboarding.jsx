@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { HeartPulse, CheckCircle2, User, Activity, CalendarDays, ArrowRight, ArrowLeft, LogIn } from 'lucide-react';
+import { HeartPulse, CheckCircle2, User, Activity, CalendarDays, ArrowRight, ArrowLeft, LogIn, Smile } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 export default function Onboarding({ setCurrentPage }) {
@@ -7,11 +7,14 @@ export default function Onboarding({ setCurrentPage }) {
   const [mode, setMode] = useState('register'); // 'register' or 'login'
   const [step, setStep] = useState(1);
   const [error, setError] = useState('');
-  const totalSteps = 3;
+  const totalSteps = 4;
 
   // Form state
   const [name, setName] = useState('');
   const [dob, setDob] = useState('');
+  const [smoker, setSmoker] = useState('');
+  const [exercise, setExercise] = useState('');
+  const [wellnessGoal, setWellnessGoal] = useState('');
   const [preExisting, setPreExisting] = useState('');
   const [bloodType, setBloodType] = useState('');
   const [allergies, setAllergies] = useState('');
@@ -31,7 +34,7 @@ export default function Onboarding({ setCurrentPage }) {
   }
 
   function handleComplete() {
-    const userData = { name, dob, preExisting, bloodType, allergies };
+    const userData = { name, dob, smoker, exercise, wellnessGoal, preExisting, bloodType, allergies };
     register(userData);
     setCurrentPage('dashboard');
   }
@@ -43,7 +46,7 @@ export default function Onboarding({ setCurrentPage }) {
       <header style={{ padding: '2rem 3rem', display: 'flex', justifyContent: 'center', backgroundColor: 'white', borderBottom: '1px solid var(--border-color)', position: 'sticky', top: 0, zIndex: 10 }}>
         {mode === 'register' ? (
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', width: '100%', maxWidth: '800px' }}>
-            {[1, 2, 3].map((s) => (
+            {[1, 2, 3, 4].map((s) => (
               <React.Fragment key={s}>
                 <div style={{ 
                   width: '32px', height: '32px', borderRadius: '50%', 
@@ -55,7 +58,7 @@ export default function Onboarding({ setCurrentPage }) {
                 }}>
                   {step > s ? <CheckCircle2 size={16} /> : s}
                 </div>
-                {s < 3 && (
+                {s < 4 && (
                   <div style={{ flex: 1, height: '4px', backgroundColor: step > s ? 'var(--primary-light)' : 'var(--bg-color)', borderRadius: '2px', transition: 'all 0.3s' }} />
                 )}
               </React.Fragment>
@@ -137,6 +140,51 @@ export default function Onboarding({ setCurrentPage }) {
           )}
 
           {mode === 'register' && step === 2 && (
+            <div>
+              <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '2rem' }}>
+                 <div style={{ width: '64px', height: '64px', backgroundColor: '#8b5cf6', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white' }}>
+                    <Smile size={32} />
+                 </div>
+              </div>
+              <h1 style={{ textAlign: 'center', marginBottom: '0.5rem', color: '#2d3748' }}>Health Profile</h1>
+              <p style={{ textAlign: 'center', marginBottom: '2.5rem', fontSize: '1.125rem' }}>Help us personalize your health recommendations.</p>
+              
+              <div className="grid">
+                <div>
+                  <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.5rem' }}>Do you smoke or use tobacco?</label>
+                  <select value={smoker} onChange={e => setSmoker(e.target.value)} style={{ width: '100%', padding: '1rem', borderRadius: 'var(--radius-md)', border: '2px solid var(--border-color)', fontSize: '1rem', outline: 'none', fontFamily: 'inherit', backgroundColor: 'white' }}>
+                    <option value="">Select...</option>
+                    <option value="no">No</option>
+                    <option value="yes">Yes</option>
+                    <option value="former">Former smoker</option>
+                  </select>
+                </div>
+                <div>
+                  <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.5rem' }}>How often do you exercise?</label>
+                  <select value={exercise} onChange={e => setExercise(e.target.value)} style={{ width: '100%', padding: '1rem', borderRadius: 'var(--radius-md)', border: '2px solid var(--border-color)', fontSize: '1rem', outline: 'none', fontFamily: 'inherit', backgroundColor: 'white' }}>
+                    <option value="">Select...</option>
+                    <option value="daily">Daily</option>
+                    <option value="weekly">A few times a week</option>
+                    <option value="rarely">Rarely</option>
+                    <option value="never">Never</option>
+                  </select>
+                </div>
+                <div style={{ gridColumn: 'span 2' }}>
+                  <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.5rem' }}>Primary wellness goal</label>
+                  <select value={wellnessGoal} onChange={e => setWellnessGoal(e.target.value)} style={{ width: '100%', padding: '1rem', borderRadius: 'var(--radius-md)', border: '2px solid var(--border-color)', fontSize: '1rem', outline: 'none', fontFamily: 'inherit', backgroundColor: 'white' }}>
+                    <option value="">Select...</option>
+                    <option value="emergency">Emergency Preparedness</option>
+                    <option value="chronic">Chronic Disease Management</option>
+                    <option value="maternal">Maternal & Family Health</option>
+                    <option value="general">General Health Monitoring</option>
+                    <option value="fitness">Fitness & Active Lifestyle</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {mode === 'register' && step === 3 && (
             <div>
               <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '2rem' }}>
                  <div style={{ width: '64px', height: '64px', backgroundColor: 'var(--secondary-color)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white' }}>

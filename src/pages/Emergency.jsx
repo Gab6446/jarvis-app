@@ -88,7 +88,7 @@ export default function Emergency() {
   }, []);
 
   return (
-    <div className="main-content" style={{ padding: 0, position: 'relative', overflow: 'hidden', backgroundColor: '#111827', height: '100vh', display: 'flex', flexDirection: 'column' }}>
+    <div className="main-content" style={{ padding: 0, position: 'relative', overflow: 'hidden', backgroundColor: '#f1f5f9', height: '100vh', display: 'flex', flexDirection: 'column' }}>
       
       {/* Top Warning Banner */}
       <div style={{ position: 'absolute', top: 0, left: 0, right: 0, zIndex: 1000, backgroundColor: 'var(--danger-color)', color: 'white', padding: '0.75rem', textAlign: 'center', fontWeight: 700, letterSpacing: '2px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', boxShadow: '0 4px 20px rgba(225,29,72,0.5)' }}>
@@ -100,14 +100,14 @@ export default function Emergency() {
       <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
         <MapContainer 
           center={[6.50, 3.38]} 
-          zoom={12} 
+          zoom={13} 
           style={{ width: '100%', height: '100%' }}
-          zoomControl={false}
+          zoomControl={true}
           attributionControl={false}
         >
-          {/* Dark themed map tiles */}
+          {/* Google Maps-style light tiles (Stadia Alidade Smooth) */}
           <TileLayer
-            url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+            url="https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png"
           />
           
           <Marker position={userPos} icon={userIcon}>
@@ -135,8 +135,8 @@ export default function Emergency() {
           )}
         </MapContainer>
         
-        {/* Dark vignette overlay for better contrast of UI cards */}
-        <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', background: 'radial-gradient(circle at center, transparent 30%, rgba(17, 24, 39, 0.7) 100%)', zIndex: 1 }} />
+        {/* Subtle vignette for depth */}
+        <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', background: 'radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.18) 100%)', zIndex: 1 }} />
       </div>
 
       {/* UI Overlay - High contrast glass panels */}
@@ -149,10 +149,10 @@ export default function Emergency() {
         {/* Huge ETA Display */}
         <div style={{ display: 'flex', justifyContent: 'flex-start', pointerEvents: 'auto' }}>
           <div style={{ 
-            background: 'rgba(17, 24, 39, 0.85)', backdropFilter: 'blur(10px)', 
-            border: '1px solid rgba(255,255,255,0.1)', borderRadius: '1.5rem',
+            background: 'rgba(255,255,255,0.92)', backdropFilter: 'blur(12px)', 
+            border: '1px solid rgba(0,0,0,0.08)', borderRadius: '1.5rem',
             padding: '2rem 3rem', display: 'flex', alignItems: 'center', gap: '2rem',
-            boxShadow: '0 20px 40px rgba(0,0,0,0.5)'
+            boxShadow: '0 8px 32px rgba(0,0,0,0.15)'
           }}>
             <div>
               <p style={{ color: 'var(--text-muted)', fontSize: '1rem', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '0.5rem', fontWeight: 600 }}>

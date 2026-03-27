@@ -1,48 +1,48 @@
 import React from 'react';
-import { Apple, Coffee, UtensilsCrossed, Droplet, ArrowLeft, CherryIcon, Info } from 'lucide-react';
+import { Apple, Coffee, UtensilsCrossed, Droplet, Heart, Info } from 'lucide-react';
 
 export default function MealPlan() {
   const plan = [
     {
       time: "Breakfast (8:00 AM)",
-      calories: "450 kcal",
+      calories: "420 kcal",
       icon: Coffee,
       color: "#f59e0b",
-      meal: "Oatmeal with Spinach and Boiled Egg",
+      meal: "Oatmeal with Banana and Boiled Egg",
       image: "https://images.unsplash.com/photo-1517673132405-a56a62b18caf?auto=format&fit=crop&q=80&w=600",
-      nutrients: ["Protein: 18g", "Iron: 4mg", "Folate: 15% DV"],
+      nutrients: ["Protein: 15g", "Fiber: 6g", "Potassium: 400mg"],
       highlights: [
-        "Provides steady energy and prevents morning sickness spikes",
-        "Rich in Iron for baby's brain development",
-        "Calcium-fortified milk for skeletal growth"
+        "Slow-release oats stabilize blood sugar throughout the morning",
+        "Potassium in banana supports healthy blood pressure",
+        "Egg protein keeps you satiated and fuels daily activity"
       ]
     },
     {
       time: "Mid-Morning Snack (11:00 AM)",
-      calories: "200 kcal",
+      calories: "180 kcal",
       icon: Apple,
       color: "#ef4444",
-      meal: "Fresh Fruit Bowl with Walnuts",
+      meal: "Mixed Nuts and Greek Yogurt",
       image: "https://images.unsplash.com/photo-1490474504059-1ed4e99f19fa?auto=format&fit=crop&q=80&w=600",
-      nutrients: ["Vitamin C: 80% DV", "Omega-3: High", "Fiber: 6g"],
+      nutrients: ["Protein: 12g", "Healthy Fats: 14g", "Probiotics: High"],
       highlights: [
-        "High Vitamin C for optimal iron absorption",
-        "Hydrating properties from fresh tropical fruits",
-        "Omega-3 fatty acids for baby's neural development"
+        "Probiotics in yogurt support gut and immune health",
+        "Mixed nuts provide heart-healthy omega-3 fatty acids",
+        "High satiety prevents afternoon energy crashes"
       ]
     },
     {
       time: "Lunch (1:30 PM)",
-      calories: "600 kcal",
+      calories: "580 kcal",
       icon: UtensilsCrossed,
       color: "#10b981",
-      meal: "Grilled Chicken Breast with Brown Rice",
+      meal: "Grilled Salmon with Steamed Vegetables",
       image: "https://images.unsplash.com/photo-1432139555190-58524dae6a55?auto=format&fit=crop&q=80&w=600",
-      nutrients: ["Protein: 35g", "Carbs: 45g", "Calcium: 10% DV"],
+      nutrients: ["Protein: 38g", "Omega-3: Very High", "Vitamin D: 80% DV"],
       highlights: [
-        "Lean protein for rapid maternal tissue repair",
-        "Complex carbohydrates for sustained daily energy",
-        "Dietary fiber to prevent third-trimester constipation"
+        "Omega-3 reduces inflammation and supports heart health",
+        "High-quality protein supports muscle repair and immunity",
+        "Vitamin D from salmon helps regulate calcium for bone health"
       ]
     },
     {
@@ -50,13 +50,27 @@ export default function MealPlan() {
       calories: "0 kcal",
       icon: Droplet,
       color: "#3b82f6",
-      meal: "Drink at least 2.5 Liters of water daily",
+      meal: "Drink at least 2.0 Liters of water daily",
       image: "https://images.unsplash.com/photo-1548657685-6136709971bc?auto=format&fit=crop&q=80&w=600",
-      nutrients: ["H2O: 2.5 Liters", "Electrolytes: Balanced"],
+      nutrients: ["H2O: 2.0 Liters", "Electrolytes: Balanced"],
       highlights: [
-        "Maintains vital amniotic fluid levels",
-        "Reduces foot and ankle swelling",
-        "Combats mid-afternoon pregnancy fatigue"
+        "Hydration maintains healthy blood pressure and kidney function",
+        "Reduces risk of urinary tract infections",
+        "Improves cognitive performance and energy levels"
+      ]
+    },
+    {
+      time: "Dinner (7:00 PM)",
+      calories: "520 kcal",
+      icon: Heart,
+      color: "#8b5cf6",
+      meal: "Brown Rice, Lentil Soup & Salad",
+      image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&q=80&w=600",
+      nutrients: ["Fiber: 14g", "Iron: 6mg", "Folate: 30% DV"],
+      highlights: [
+        "Lentils are one of the richest plant-based iron sources",
+        "Brown rice provides complex carbs for overnight recovery",
+        "Raw salad greens deliver antioxidants that reduce cell damage"
       ]
     }
   ];
@@ -65,9 +79,9 @@ export default function MealPlan() {
     <div className="main-content" style={{ backgroundColor: 'var(--bg-color)' }}>
       <header className="page-header" style={{ marginBottom: '2rem' }}>
         <h1 className="page-greeting" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', margin: 0 }}>
-          <Apple color="#f472b6" /> Your Week 24 Meal Plan
+          <Apple color="#f472b6" /> Nutrition & Wellness
         </h1>
-        <p className="page-subtitle" style={{ fontSize: '1.125rem', marginTop: '0.5rem' }}>Personalized nutritional advice to ensure you and your baby get the optimal nutrients.</p>
+        <p className="page-subtitle" style={{ fontSize: '1.125rem', marginTop: '0.5rem' }}>A balanced daily nutrition guide for a healthy, active life. Good nutrition supports your emergency resilience too.</p>
       </header>
 
       <div className="grid grid-cols-2">
@@ -114,25 +128,25 @@ export default function MealPlan() {
           ))}
         </div>
 
-        <div style={{ position: 'sticky', top: '2rem', alignSelf: 'start', backgroundColor: '#fff1f2', border: '2px solid #fda4af', borderRadius: 'var(--radius-lg)', padding: '2.5rem', display: 'flex', flexDirection: 'column', gap: '1.5rem', boxShadow: 'var(--shadow-md)' }}>
-           <h2 style={{ fontSize: '1.5rem', color: '#881337', margin: 0, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <Info color="#fda4af" /> Vital Insights
+        <div style={{ position: 'sticky', top: '2rem', alignSelf: 'start', backgroundColor: '#f0fdf4', border: '2px solid #86efac', borderRadius: 'var(--radius-lg)', padding: '2.5rem', display: 'flex', flexDirection: 'column', gap: '1.5rem', boxShadow: 'var(--shadow-md)' }}>
+           <h2 style={{ fontSize: '1.5rem', color: '#14532d', margin: 0, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <Info color="#86efac" /> Wellness Insights
            </h2>
-           <p style={{ color: '#be123c', fontSize: '1rem', lineHeight: 1.6, margin: 0 }}>
-             Your second trimester demands extra iron to support your baby's rapid growth. JARVIS automatically monitors your macronutrient history and suggests combinations that enhance iron absorption, like pairing Vitamin C rich fruits with spinach.
+           <p style={{ color: '#166534', fontSize: '1rem', lineHeight: 1.6, margin: 0 }}>
+             A balanced mix of lean proteins, complex carbs, healthy fats, and micronutrients is your best defense against chronic disease. Consistency beats perfection — try to hit your daily fiber and protein targets.
            </p>
            
-           <div style={{ backgroundColor: 'white', padding: '1.5rem', borderRadius: 'var(--radius-md)', border: '1px solid #fecdd3' }}>
-              <h4 style={{ margin: '0 0 0.5rem 0', color: '#881337', fontSize: '1rem' }}>Avoid These Today:</h4>
-              <ul style={{ color: '#be123c', margin: 0, paddingLeft: '1.5rem', fontSize: '0.9rem', lineHeight: 1.6 }}>
-                 <li>Caffeine directly after meals (blocks iron absorption)</li>
-                 <li>Raw or undercooked seafood</li>
-                 <li>Excessive sodium (to manage your swelling)</li>
+           <div style={{ backgroundColor: 'white', padding: '1.5rem', borderRadius: 'var(--radius-md)', border: '1px solid #bbf7d0' }}>
+              <h4 style={{ margin: '0 0 0.5rem 0', color: '#14532d', fontSize: '1rem' }}>Minimize These:</h4>
+              <ul style={{ color: '#166534', margin: 0, paddingLeft: '1.5rem', fontSize: '0.9rem', lineHeight: 1.6 }}>
+                 <li>Ultra-processed foods and refined sugar</li>
+                 <li>Excessive sodium (target under 2,300mg/day)</li>
+                 <li>Alcohol and excessive caffeine</li>
               </ul>
            </div>
            
-           <button className="btn btn-outline" style={{ borderColor: '#fca5a5', color: '#e11d48' }}>
-             Download PDF Grocery List
+           <button className="btn btn-outline" style={{ borderColor: '#86efac', color: '#15803d' }}>
+             Download PDF Meal Planner
            </button>
         </div>
       </div>

@@ -27,7 +27,7 @@ export default function Records() {
       name: "Lagos University Teaching Hospital (LUTH)",
       location: "Idi-Araba, Surulere",
       distance: "3.2 km",
-      specialties: ["Obstetrics", "NICU", "Blood Bank"],
+      specialties: ["Trauma ER", "Cardiology", "Blood Bank"],
       level: "Level 3 Trauma",
       rating: 4.7,
       available: true
@@ -36,7 +36,7 @@ export default function Records() {
       name: "General Hospital, Ikeja",
       location: "Opp. LTV, Ikeja",
       distance: "5.1 km",
-      specialties: ["Maternity", "Emergency", "Lab"],
+      specialties: ["Emergency", "Surgery", "Lab"],
       level: "Level 2",
       rating: 4.3,
       available: true
@@ -45,7 +45,7 @@ export default function Records() {
       name: "Evercare Hospital Lekki",
       location: "Admiralty Way, Lekki Phase 1",
       distance: "12.4 km",
-      specialties: ["Fetal Medicine", "NICU", "Prenatal Screening"],
+      specialties: ["Cardiology", "Neurology", "Advanced Imaging"],
       level: "Level 3 Premium",
       rating: 4.9,
       available: true
@@ -54,7 +54,7 @@ export default function Records() {
       name: "Federal Medical Centre, Ebute-Metta",
       location: "Ebute-Metta, Lagos Mainland",
       distance: "6.8 km",
-      specialties: ["Obstetrics", "Lab", "Pharmacy"],
+      specialties: ["Internal Medicine", "Lab", "Pharmacy"],
       level: "Level 2",
       rating: 4.1,
       available: false

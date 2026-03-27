@@ -1,23 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { PhoneCall, Heart, CalendarHeart, Sparkles, MapPin, Syringe, Info, ArrowRight, MessageSquare, Stethoscope, User } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 export default function Dashboard({ setCurrentPage }) {
   const { currentUser } = useAuth();
-  const [progress, setProgress] = useState(0);
-
-  // Animate the circular progress bar on mount
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setProgress(60); // 24 weeks / 40 weeks = 60%
-    }, 500);
-    return () => clearTimeout(timer);
-  }, []);
-
-  const radius = 60;
-  const circumference = 2 * Math.PI * radius;
-  const strokeDashoffset = circumference - (progress / 100) * circumference;
-
   return (
     <div className="main-content">
       
@@ -26,80 +12,69 @@ export default function Dashboard({ setCurrentPage }) {
         <h1 className="page-greeting">Good afternoon, {currentUser?.name || 'there'} 👋</h1>
         <p style={{ fontSize: '1.25rem', color: 'var(--text-main)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
           <Sparkles color="var(--primary-color)" size={24} className="animate-float" />
-          Your baby is growing beautifully today!
+          Ready to respond to any emergency, 24/7.
         </p>
       </header>
 
       <div className="grid grid-cols-3">
         
-        {/* Visual Pregnancy Progress */}
-        <div className="card glass-panel" style={{ gridColumn: 'span 2', display: 'flex', gap: '2.5rem', alignItems: 'center' }}>
+        {/* Quick Emergency Actions */}
+        <div className="card glass-panel" style={{ gridColumn: 'span 2', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+          <h2 style={{ fontSize: '1.5rem', margin: 0, color: '#2d3748' }}>Quick Emergency Dispatch</h2>
+          <p style={{ fontSize: '1rem', color: 'var(--text-muted)', margin: 0 }}>
+            Tap immediately if you or someone else is in immediate danger. We will route you to the nearest responder.
+          </p>
           
-          <div style={{ position: 'relative', width: '160px', height: '160px', flexShrink: 0 }}>
-            <svg height="160" width="160">
-              <circle stroke="var(--border-color)" strokeWidth="12" fill="transparent" r={radius} cx="80" cy="80" />
-              <circle
-                className="progress-ring__circle"
-                stroke="var(--primary-color)"
-                strokeWidth="12"
-                strokeLinecap="round"
-                fill="transparent"
-                r={radius}
-                cx="80"
-                cy="80"
-                style={{ strokeDasharray: circumference, strokeDashoffset }}
-              />
-            </svg>
-            <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-              <Heart color="var(--secondary-color)" size={32} fill="var(--secondary-color)" className="animate-float" style={{ animationDelay: '1s' }} />
-              <div style={{ marginTop: '0.25rem', textAlign: 'center' }}>
-                <span style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--text-main)', lineHeight: 1 }}>W24</span>
+          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+            <button 
+              style={{ flex: 1, minWidth: '150px', padding: '1.5rem', backgroundColor: '#fee2e2', border: '2px solid #ef4444', borderRadius: 'var(--radius-lg)', cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.75rem', transition: 'all 0.2s', color: '#991b1b', fontWeight: 700 }}
+              onClick={() => setCurrentPage('emergency')}
+            >
+              <div style={{ backgroundColor: '#ef4444', color: 'white', padding: '1rem', borderRadius: '50%' }}>
+                <Stethoscope size={32} />
               </div>
-            </div>
-          </div>
-
-          <div style={{ flex: 1 }}>
-            <h2 style={{ fontSize: '1.5rem', marginBottom: '0.5rem', color: '#2d3748' }}>Second Trimester</h2>
-            <p style={{ fontSize: '1rem', color: 'var(--text-muted)', marginBottom: '1.5rem' }}>
-              Your little one is now alongside the size of an ear of corn. Organ development is rapidly progressing!
-            </p>
-            
-            <div style={{ display: 'flex', gap: '1rem' }}>
-              <div style={{ padding: '1rem', backgroundColor: '#fff', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)', flex: 1 }}>
-                <span style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', fontSize: '0.8rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.25rem' }}>
-                  <CalendarHeart size={14} /> Due Date
-                </span>
-                <strong style={{ fontSize: '1.125rem', color: '#2d3748' }}>Oct 12, 2026</strong>
+              Medical Emergency
+            </button>
+            <button 
+              style={{ flex: 1, minWidth: '150px', padding: '1.5rem', backgroundColor: '#ffedd5', border: '2px solid #f97316', borderRadius: 'var(--radius-lg)', cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.75rem', transition: 'all 0.2s', color: '#9a3412', fontWeight: 700 }}
+              onClick={() => setCurrentPage('emergency')}
+            >
+              <div style={{ backgroundColor: '#f97316', color: 'white', padding: '1rem', borderRadius: '50%' }}>
+                <Info size={32} />
               </div>
-              <div style={{ padding: '1rem', backgroundColor: 'var(--primary-light)', color: 'white', borderRadius: 'var(--radius-md)', flex: 1 }}>
-                <span style={{ display: 'block', fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.25rem' }}>
-                  Countdown
-                </span>
-                <strong style={{ fontSize: '1.25rem' }}>112 Days</strong>
+              Fire Emergency
+            </button>
+            <button 
+              style={{ flex: 1, minWidth: '150px', padding: '1.5rem', backgroundColor: '#e0f2fe', border: '2px solid #0ea5e9', borderRadius: 'var(--radius-lg)', cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.75rem', transition: 'all 0.2s', color: '#075985', fontWeight: 700 }}
+              onClick={() => setCurrentPage('emergency')}
+            >
+              <div style={{ backgroundColor: '#0ea5e9', color: 'white', padding: '1rem', borderRadius: '50%' }}>
+                <PhoneCall size={32} />
               </div>
-            </div>
+              Police SOS
+            </button>
           </div>
         </div>
 
-        {/* Nutritional Advice (Warm & Friendly) */}
+        {/* First Aid Tips */}
         <div className="card" style={{ background: 'linear-gradient(135deg, var(--secondary-light) 0%, #f472b6 100%)', color: 'white' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem' }}>
             <div style={{ padding: '0.5rem', backgroundColor: 'rgba(255,255,255,0.2)', borderRadius: 'var(--radius-md)' }}>
-              <span style={{ fontSize: '1.5rem' }}>🥑</span>
+              <Heart size={24} color="white" fill="white" />
             </div>
-            <h2 style={{ fontSize: '1.25rem', margin: 0, color: 'white' }}>Daily Nourishment</h2>
+            <h2 style={{ fontSize: '1.25rem', margin: 0, color: 'white' }}>First Aid Quick Tips</h2>
           </div>
           <p style={{ color: 'rgba(255,255,255,0.95)', fontSize: '0.95rem', marginBottom: '1.5rem' }}>
-            At Week 24, iron and calcium are your best friends for strong bone development.
+            While waiting for responders, here is what you can do for sudden cardiac arrest:
           </p>
           <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 1.5rem 0', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
             <li style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', fontSize: '0.9rem', backgroundColor: 'rgba(255,255,255,0.1)', padding: '0.5rem 0.75rem', borderRadius: 'var(--radius-sm)' }}>
               <div style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: 'white' }}></div>
-              Include spinach or dark greens
+              Call JARVIS SOS immediately
             </li>
             <li style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', fontSize: '0.9rem', backgroundColor: 'rgba(255,255,255,0.1)', padding: '0.5rem 0.75rem', borderRadius: 'var(--radius-sm)' }}>
               <div style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: 'white' }}></div>
-              Drink at least 2.5L of water
+              Begin CPR (100-120 beats/min)
             </li>
           </ul>
           <button 
@@ -110,46 +85,30 @@ export default function Dashboard({ setCurrentPage }) {
               display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem',
               boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
             }}
-            onClick={() => setCurrentPage('mealplan')}
+            onClick={() => setCurrentPage('education')}
           >
-            View Full Meal Plan <ArrowRight size={16} />
+            View More Guides <ArrowRight size={16} />
           </button>
         </div>
       </div>
 
-      {/* Upcoming Reminders Section */}
+      {/* Profile & Recent Activity */}
       <h3 style={{ marginTop: '2.5rem', marginBottom: '1rem', color: '#2d3748', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-        <CalendarHeart color="var(--primary-color)" /> What's Next on Your Journey
+        <User color="var(--primary-color)" /> Profile & Health Management
       </h3>
       
       <div className="grid grid-cols-2">
-        <div className="card" style={{ display: 'flex', gap: '1.25rem', alignItems: 'center', padding: '1.5rem' }}>
-          <div style={{ backgroundColor: 'var(--bg-color)', padding: '1rem', borderRadius: 'var(--radius-md)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minWidth: '70px', border: '1px solid var(--border-color)' }}>
-            <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', textTransform: 'uppercase', fontWeight: 600 }}>Apr</span>
-            <strong style={{ fontSize: '1.5rem', color: 'var(--primary-color)', lineHeight: 1 }}>02</strong>
-          </div>
-          <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.25rem' }}>
-              <Syringe size={16} color="var(--accent-color)" />
-              <strong style={{ fontSize: '1.1rem', color: '#2d3748' }}>Tetanus Toxoid Vaccine</strong>
-            </div>
-            <p style={{ fontSize: '0.9rem', margin: 0, display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
-              <MapPin size={14} /> General Hospital, Ikeja
-            </p>
-          </div>
-        </div>
-
         <div className="card glass-panel" style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-          <h2 className="card-title">Quick Actions</h2>
+          <h2 className="card-title">Manage Your Health</h2>
           
           <button 
-            className="btn btn-primary" 
+            className="btn btn-outline" 
             style={{ width: '100%', justifyContent: 'flex-start', padding: '1rem' }}
-            onClick={() => setCurrentPage('consult')}
+            onClick={() => setCurrentPage('appointments')}
           >
-            <MessageSquare size={20} /> Talk to a Specialist
+            <CalendarHeart size={20} /> Upcoming Appointments
           </button>
-          
+
           <button 
             className="btn btn-outline" 
             style={{ width: '100%', justifyContent: 'flex-start', padding: '1rem' }}
@@ -169,16 +128,16 @@ export default function Dashboard({ setCurrentPage }) {
 
         <div className="card" style={{ display: 'flex', gap: '1.25rem', alignItems: 'center', padding: '1.5rem' }}>
           <div style={{ backgroundColor: 'var(--bg-color)', padding: '1rem', borderRadius: 'var(--radius-md)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minWidth: '70px', border: '1px solid var(--border-color)' }}>
-            <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', textTransform: 'uppercase', fontWeight: 600 }}>Apr</span>
-            <strong style={{ fontSize: '1.5rem', color: 'var(--primary-color)', lineHeight: 1 }}>15</strong>
+            <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', textTransform: 'uppercase', fontWeight: 600 }}>Dec</span>
+            <strong style={{ fontSize: '1.5rem', color: 'var(--primary-color)', lineHeight: 1 }}>05</strong>
           </div>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.25rem' }}>
-              <Heart size={16} color="var(--secondary-color)" />
-              <strong style={{ fontSize: '1.1rem', color: '#2d3748' }}>Routine Antenatal</strong>
+              <Syringe size={16} color="var(--accent-color)" />
+              <strong style={{ fontSize: '1.1rem', color: '#2d3748' }}>Annual Physical Exam</strong>
             </div>
             <p style={{ fontSize: '0.9rem', margin: 0, display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
-              <MapPin size={14} /> LUTH
+              <MapPin size={14} /> General Hospital, Ikeja
             </p>
           </div>
         </div>

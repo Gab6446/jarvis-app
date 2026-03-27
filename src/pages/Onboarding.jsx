@@ -12,8 +12,7 @@ export default function Onboarding({ setCurrentPage }) {
   // Form state
   const [name, setName] = useState('');
   const [dob, setDob] = useState('');
-  const [lmp, setLmp] = useState('');
-  const [firstPregnancy, setFirstPregnancy] = useState(true);
+  const [preExisting, setPreExisting] = useState('');
   const [bloodType, setBloodType] = useState('');
   const [allergies, setAllergies] = useState('');
 
@@ -32,7 +31,7 @@ export default function Onboarding({ setCurrentPage }) {
   }
 
   function handleComplete() {
-    const userData = { name, dob, lmp, firstPregnancy, bloodType, allergies };
+    const userData = { name, dob, preExisting, bloodType, allergies };
     register(userData);
     setCurrentPage('dashboard');
   }
@@ -141,28 +140,17 @@ export default function Onboarding({ setCurrentPage }) {
             <div>
               <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '2rem' }}>
                  <div style={{ width: '64px', height: '64px', backgroundColor: 'var(--secondary-color)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white' }}>
-                    <CalendarDays size={32} />
+                    <Activity size={32} />
                  </div>
               </div>
-              <h1 style={{ textAlign: 'center', marginBottom: '0.5rem', color: '#2d3748' }}>Your Pregnancy Journey</h1>
-              <p style={{ textAlign: 'center', marginBottom: '2.5rem', fontSize: '1.125rem' }}>This helps us calculate your timeline and milestone reminders.</p>
+              <h1 style={{ textAlign: 'center', marginBottom: '0.5rem', color: '#2d3748' }}>Medical History</h1>
+              <p style={{ textAlign: 'center', marginBottom: '2.5rem', fontSize: '1.125rem' }}>This helps first responders provide the best care during an emergency.</p>
               
               <div className="grid">
-                <div>
-                  <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.5rem' }}>First day of last period (LMP)</label>
-                  <input type="date" value={lmp} onChange={e => setLmp(e.target.value)} style={{ width: '100%', padding: '1rem', borderRadius: 'var(--radius-md)', border: '2px solid var(--border-color)', fontSize: '1rem', outline: 'none', fontFamily: 'inherit' }} />
-                  <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '0.5rem' }}>Required to calculate gestational age reliably.</p>
-                </div>
-                <div>
-                  <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.5rem' }}>Is this your first pregnancy?</label>
-                  <div style={{ display: 'flex', gap: '1rem' }}>
-                    <label style={{ flex: 1, padding: '1rem', border: `2px solid ${firstPregnancy ? 'var(--primary-color)' : 'var(--border-color)'}`, borderRadius: 'var(--radius-md)', textAlign: 'center', backgroundColor: firstPregnancy ? 'var(--bg-color)' : 'white', cursor: 'pointer', fontWeight: 600, color: firstPregnancy ? 'var(--primary-dark)' : 'var(--text-muted)' }}>
-                      <input type="radio" name="gravida" checked={firstPregnancy} onChange={() => setFirstPregnancy(true)} style={{ display: 'none' }} /> Yes
-                    </label>
-                    <label style={{ flex: 1, padding: '1rem', border: `2px solid ${!firstPregnancy ? 'var(--primary-color)' : 'var(--border-color)'}`, borderRadius: 'var(--radius-md)', textAlign: 'center', cursor: 'pointer', fontWeight: 600, color: !firstPregnancy ? 'var(--primary-dark)' : 'var(--text-muted)' }}>
-                      <input type="radio" name="gravida" checked={!firstPregnancy} onChange={() => setFirstPregnancy(false)} style={{ display: 'none' }} /> No
-                    </label>
-                  </div>
+                <div style={{ gridColumn: 'span 2' }}>
+                  <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.5rem' }}>Pre-existing Conditions</label>
+                  <input type="text" placeholder="e.g., Asthma, Hypertension, Diabetes, None" value={preExisting} onChange={e => setPreExisting(e.target.value)} style={{ width: '100%', padding: '1rem', borderRadius: 'var(--radius-md)', border: '2px solid var(--border-color)', fontSize: '1rem', outline: 'none', fontFamily: 'inherit' }} />
+                  <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '0.5rem' }}>List any major chronic conditions or previous major surgeries.</p>
                 </div>
               </div>
             </div>
@@ -172,7 +160,7 @@ export default function Onboarding({ setCurrentPage }) {
             <div>
               <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '2rem' }}>
                  <div style={{ width: '64px', height: '64px', backgroundColor: 'var(--danger-color)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white' }}>
-                    <Activity size={32} />
+                    <HeartPulse size={32} />
                  </div>
               </div>
               <h1 style={{ textAlign: 'center', marginBottom: '0.5rem', color: '#2d3748' }}>Emergency Baselines</h1>

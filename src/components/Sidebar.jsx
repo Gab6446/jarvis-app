@@ -7,20 +7,26 @@ import {
   Settings,
   User,
   LogOut,
-  BookOpen
+  BookOpen,
+  Bell,
+  Users,
+  CalendarPlus
 } from 'lucide-react';
 
 export default function Sidebar({ currentPage, setCurrentPage, userName, onLogout }) {
   const navItems = [
     { id: 'dashboard', label: 'Dashboard', icon: Home },
-    { id: 'emergency', label: 'Emergency', icon: AlertTriangle, danger: true },
+    { id: 'emergency', label: 'SOS Tracking', icon: AlertTriangle, danger: true },
     { id: 'records', label: 'Health Records', icon: FileText },
-    { id: 'consult', label: 'Consultation', icon: MessageSquare },
-    { id: 'education', label: 'Education Hub', icon: BookOpen },
+    { id: 'appointments', label: 'Appointments', icon: CalendarPlus },
+    { id: 'consult', label: 'Talk to Specialist', icon: MessageSquare },
+    { id: 'notifications', label: 'Notifications', icon: Bell },
+    { id: 'community', label: 'Community', icon: Users },
+    { id: 'education', label: 'First Aid Guides', icon: BookOpen },
   ];
 
   return (
-    <aside style={{
+    <aside className="sidebar-desktop" style={{
       width: 'var(--sidebar-width)',
       height: '100vh',
       backgroundColor: 'var(--surface-color)',
@@ -47,12 +53,12 @@ export default function Sidebar({ currentPage, setCurrentPage, userName, onLogou
         </div>
         <div>
           <strong style={{ fontSize: '1.125rem', letterSpacing: '-0.03em', color: '#2d3748' }}>JARVIS</strong>
-          <span style={{ display: 'block', fontSize: '0.7rem', color: 'var(--text-muted)' }}>Smart Health Provider</span>
+          <span style={{ display: 'block', fontSize: '0.7rem', color: 'var(--text-muted)' }}>Emergency Network</span>
         </div>
       </div>
 
       {/* Navigation */}
-      <nav style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+      <nav style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.25rem', overflowY: 'auto' }}>
         {navItems.map(item => (
           <button
             key={item.id}
@@ -61,11 +67,11 @@ export default function Sidebar({ currentPage, setCurrentPage, userName, onLogou
               display: 'flex',
               alignItems: 'center',
               gap: '0.75rem',
-              padding: '0.75rem 1rem',
+              padding: '0.65rem 1rem',
               borderRadius: 'var(--radius-md)',
               border: 'none',
               cursor: 'pointer',
-              fontSize: '0.95rem',
+              fontSize: '0.9rem',
               fontWeight: currentPage === item.id ? 600 : 400,
               backgroundColor: currentPage === item.id 
                 ? (item.danger ? 'rgba(225,29,72,0.08)' : 'var(--bg-color)') 
@@ -77,7 +83,7 @@ export default function Sidebar({ currentPage, setCurrentPage, userName, onLogou
               fontFamily: 'inherit'
             }}
           >
-            <item.icon size={20} />
+            <item.icon size={18} />
             {item.label}
           </button>
         ))}
@@ -86,16 +92,16 @@ export default function Sidebar({ currentPage, setCurrentPage, userName, onLogou
       {/* User Profile Footer */}
       <div style={{ 
         borderTop: '1px solid var(--border-color)', 
-        paddingTop: '1.5rem', 
+        paddingTop: '1.25rem', 
         display: 'flex', flexDirection: 'column', gap: '0.75rem' 
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0 0.5rem' }}>
-          <div className="avatar">
+          <div className="avatar" style={{ width: '2.5rem', height: '2.5rem', fontSize: '1rem' }}>
             {userName ? userName.charAt(0).toUpperCase() : 'U'}
           </div>
           <div style={{ flex: 1 }}>
-            <strong style={{ fontSize: '0.9rem', display: 'block', color: '#2d3748' }}>{userName || 'User'}</strong>
-            <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Patient</span>
+            <strong style={{ fontSize: '0.85rem', display: 'block', color: '#2d3748' }}>{userName || 'User'}</strong>
+            <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>Patient</span>
           </div>
         </div>
         

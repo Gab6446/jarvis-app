@@ -1,21 +1,17 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 
 const AuthContext = createContext(null);
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useAuth() {
   return useContext(AuthContext);
 }
 
 export function AuthProvider({ children }) {
-  const [currentUser, setCurrentUser] = useState(null);
-
-  // On mount, check if there's a logged-in session
-  useEffect(() => {
+  const [currentUser, setCurrentUser] = useState(() => {
     const sessionUser = localStorage.getItem('jarvis_session');
-    if (sessionUser) {
-      setCurrentUser(JSON.parse(sessionUser));
-    }
-  }, []);
+    return sessionUser ? JSON.parse(sessionUser) : null;
+  });
 
   // Get all registered users
   function getUsers() {

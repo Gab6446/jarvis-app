@@ -1,9 +1,76 @@
 import React, { useState, useEffect } from 'react';
-import { ShieldAlert, Navigation, Phone, Car, MapPin, Activity, ShieldCheck, HeartPulse, Hospital, Clock } from 'lucide-react';
+import { ShieldAlert, Navigation, Phone, Car, Activity, ShieldCheck, HeartPulse, Hospital, Clock } from 'lucide-react';
+import { MapContainer, TileLayer, Marker, Popup, Polyline, useMap } from 'react-leaflet';
+import L from 'leaflet';
+
+// Create custom colored icons for the map
+const userIcon = new L.DivIcon({
+  html: `<div style="width: 24px; height: 24px; background-color: var(--danger-color); border: 3px solid white; border-radius: 50%; box-shadow: 0 0 15px rgba(225,29,72,0.8); animation: pulse-danger 2s infinite;"></div>`,
+  className: '',
+  iconSize: [24, 24],
+  iconAnchor: [12, 12]
+});
+
+const hospitalIcon = new L.DivIcon({
+  html: `<div style="width: 30px; height: 30px; background-color: #10b981; border: 3px solid white; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 15px rgba(16,185,129,0.5);">🏥</div>`,
+  className: '',
+  iconSize: [30, 30],
+  iconAnchor: [15, 15]
+});
+
+const ambulanceIcon = new L.DivIcon({
+  html: `<div style="width: 32px; height: 32px; background-color: white; border: 3px solid var(--accent-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 15px rgba(255,255,255,0.8); color: var(--accent-color);">🚑</div>`,
+  className: '',
+  iconSize: [32, 32],
+  iconAnchor: [16, 16]
+});
+
+// Coordinates (Lagos, Nigeria area)
+const userPos = [6.5244, 3.3792];
+const hospitalPos = [6.4530, 3.3958]; // Lagos Island Maternity
+const ambulanceStart = [6.4800, 3.3600];
+
+// Simple straight line path for the ambulance animation
+function interpolateLine(start, end, steps) {
+  const line = [];
+  for (let i = 0; i <= steps; i++) {
+    line.push([
+      start[0] + (end[0] - start[0]) * (i / steps),
+      start[1] + (end[1] - start[1]) * (i / steps)
+    ]);
+  }
+  return line;
+}
+
+const ambulancePath = interpolateLine(ambulanceStart, userPos, 100);
+
+function AnimationUpdater({ setAmbulancePos, dispatchStatus }) {
+  const map = useMap();
+  
+  useEffect(() => {
+    if (dispatchStatus === 'en-route') {
+      let step = 0;
+      const interval = setInterval(() => {
+        if (step < ambulancePath.length) {
+          setAmbulancePos(ambulancePath[step]);
+          // keep map centered slightly over the action
+          map.setView([6.50, 3.38], 13, { animate: true });
+          step++;
+        } else {
+          clearInterval(interval);
+        }
+      }, 300); // adjust speed
+      return () => clearInterval(interval);
+    }
+  }, [dispatchStatus, map, setAmbulancePos]);
+
+  return null;
+}
 
 export default function Emergency() {
   const [dispatchStatus, setDispatchStatus] = useState('locating'); // locating, dispatching, en-route
-  const [etaTimer, setEtaTimer] = useState(8); 
+  const etaTimer = 8;
+  const [ambulancePos, setAmbulancePos] = useState(ambulanceStart);
 
   useEffect(() => {
     const timer1 = setTimeout(() => {
@@ -21,94 +88,60 @@ export default function Emergency() {
   }, []);
 
   return (
-    <div className="main-content" style={{ padding: 0, position: 'relative', overflow: 'hidden', backgroundColor: '#111827' }}>
+    <div className="main-content" style={{ padding: 0, position: 'relative', overflow: 'hidden', backgroundColor: '#111827', height: '100vh', display: 'flex', flexDirection: 'column' }}>
       
       {/* Top Warning Banner */}
-      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, zIndex: 40, backgroundColor: 'var(--danger-color)', color: 'white', padding: '0.75rem', textAlign: 'center', fontWeight: 700, letterSpacing: '2px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', boxShadow: '0 4px 20px rgba(225,29,72,0.5)' }}>
+      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, zIndex: 1000, backgroundColor: 'var(--danger-color)', color: 'white', padding: '0.75rem', textAlign: 'center', fontWeight: 700, letterSpacing: '2px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', boxShadow: '0 4px 20px rgba(225,29,72,0.5)' }}>
         <ShieldAlert size={20} className="animate-pulse-danger" style={{ borderRadius: '50%' }} />
-        EMERGENCY ACTIVE — MEDICAL RESPONSE COORDINATED
+        EMERGENCY ACTIVE — SOS DISPATCH COORDINATED
       </div>
 
-      {/* Dark Map Simulator Background */}
+      {/* Interactive Leaflet Map Background */}
       <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
-        {/* Map Grid Pattern */}
-        <div style={{ 
-          width: '100%', height: '100%', 
-          backgroundImage: 'radial-gradient(rgba(255,255,255,0.1) 1px, transparent 1px)', 
-          backgroundSize: '40px 40px',
-        }} />
-
-        {/* User Location Node (Pulsing Red) */}
-        <div style={{ 
-          position: 'absolute', top: '45%', left: '60%', transform: 'translate(-50%, -50%)', zIndex: 2
-        }}>
-          <div className="animate-pulse-danger" style={{ 
-            width: '32px', height: '32px', backgroundColor: 'var(--danger-color)', 
-            borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center',
-            boxShadow: '0 0 30px rgba(225,29,72,0.8)'
-          }}>
-            <div style={{ width: '10px', height: '10px', backgroundColor: 'white', borderRadius: '50%' }} />
-          </div>
-          <div style={{ position: 'absolute', top: '100%', left: '50%', transform: 'translateX(-50%)', marginTop: '0.5rem', backgroundColor: 'rgba(0,0,0,0.8)', color: 'white', padding: '0.25rem 0.75rem', borderRadius: 'var(--radius-sm)', fontSize: '0.75rem', whiteSpace: 'nowrap', fontWeight: 600 }}>
-            Your Location
-          </div>
-        </div>
-
-        {/* Hospital Location Node */}
-        <div style={{ 
-          position: 'absolute', top: '20%', left: '80%', transform: 'translate(-50%, -50%)', zIndex: 2
-        }}>
-          <div style={{ 
-            width: '40px', height: '40px', backgroundColor: '#10b981', 
-            borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center',
-            boxShadow: '0 0 20px rgba(16,185,129,0.5)', border: '2px solid white'
-          }}>
-            <Hospital color="white" size={20} />
-          </div>
-        </div>
-
-        {/* Animated Map Route SVG */}
-        <svg style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 1, pointerEvents: 'none' }}>
-          {/* Target Route (User to Hospital) */}
-          <path d="M 60% 45% Q 70% 25% 80% 20%" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="6" strokeDasharray="10 10" />
+        <MapContainer 
+          center={[6.50, 3.38]} 
+          zoom={12} 
+          style={{ width: '100%', height: '100%' }}
+          zoomControl={false}
+          attributionControl={false}
+        >
+          {/* Dark themed map tiles */}
+          <TileLayer
+            url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+          />
           
-          {/* Ambulance Route (Incoming) */}
-          {dispatchStatus !== 'locating' && (
-            <path 
-              d="M 20% 70% C 30% 60%, 45% 75%, 60% 45%" 
-              fill="none" 
-              stroke="var(--accent-color)" 
-              strokeWidth="6" 
-              style={{
-                strokeDasharray: '1000',
-                strokeDashoffset: dispatchStatus === 'en-route' ? '0' : '1000',
-                transition: 'stroke-dashoffset 4s linear'
-              }}
-            />
-          )}
-        </svg>
+          <Marker position={userPos} icon={userIcon}>
+            <Popup>Your Alert Location</Popup>
+          </Marker>
+          
+          <Marker position={hospitalPos} icon={hospitalIcon}>
+            <Popup>Destination: General Hospital</Popup>
+          </Marker>
 
-        {/* Ambulance Marker */}
-        <div style={{ 
-          position: 'absolute', top: '70%', left: '20%', transform: 'translate(-50%, -50%)', zIndex: 3,
-          transition: 'all 4s linear',
-          ...(dispatchStatus === 'en-route' ? { top: '45%', left: '60%' } : {})
-        }}>
+          {/* Draw route from User to Hospital */}
+          <Polyline positions={[userPos, hospitalPos]} color="#10b981" weight={4} dashArray="10, 10" />
+
+          {/* Draw incoming ambulance route */}
           {dispatchStatus !== 'locating' && (
-            <div style={{ 
-              backgroundColor: 'white', padding: '0.5rem', borderRadius: '50%',
-              boxShadow: '0 0 20px rgba(255,255,255,0.8)', color: 'var(--accent-color)',
-              border: '3px solid var(--accent-color)'
-            }}>
-              <Car size={24} />
-            </div>
+            <>
+              <Marker position={ambulancePos} icon={ambulanceIcon} zIndexOffset={1000}>
+                <Popup>JARVIS Unit L-042 Route</Popup>
+              </Marker>
+              <Polyline positions={ambulancePath} color="var(--accent-color)" weight={4} opacity={0.5} />
+              {/* Highlight route driven up to current point */}
+              <Polyline positions={[ambulanceStart, ambulancePos]} color="var(--accent-color)" weight={5} />
+              <AnimationUpdater setAmbulancePos={setAmbulancePos} dispatchStatus={dispatchStatus} />
+            </>
           )}
-        </div>
+        </MapContainer>
+        
+        {/* Dark vignette overlay for better contrast of UI cards */}
+        <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', background: 'radial-gradient(circle at center, transparent 30%, rgba(17, 24, 39, 0.7) 100%)', zIndex: 1 }} />
       </div>
 
       {/* UI Overlay - High contrast glass panels */}
       <div style={{ 
-        position: 'relative', zIndex: 10, padding: '5rem 2.5rem 2.5rem 2.5rem', height: '100%', 
+        position: 'relative', zIndex: 10, padding: '5rem 2.5rem 2.5rem 2.5rem', flex: 1, 
         display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
         pointerEvents: 'none'
       }}>
@@ -116,14 +149,14 @@ export default function Emergency() {
         {/* Huge ETA Display */}
         <div style={{ display: 'flex', justifyContent: 'flex-start', pointerEvents: 'auto' }}>
           <div style={{ 
-            background: 'rgba(17, 24, 39, 0.85)', backdropFilter: 'blur(20px)', 
+            background: 'rgba(17, 24, 39, 0.85)', backdropFilter: 'blur(10px)', 
             border: '1px solid rgba(255,255,255,0.1)', borderRadius: '1.5rem',
             padding: '2rem 3rem', display: 'flex', alignItems: 'center', gap: '2rem',
             boxShadow: '0 20px 40px rgba(0,0,0,0.5)'
           }}>
             <div>
               <p style={{ color: 'var(--text-muted)', fontSize: '1rem', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '0.5rem', fontWeight: 600 }}>
-                {dispatchStatus === 'locating' ? 'Calculating ETA...' : (dispatchStatus === 'dispatching' ? 'Ambulance Assigned' : 'Ambulance Arriving In')}
+                {dispatchStatus === 'locating' ? 'Calculating ETA...' : (dispatchStatus === 'dispatching' ? 'Responder Assigned' : 'Responder Arriving In')}
               </p>
               {dispatchStatus === 'en-route' ? (
                 <h1 style={{ fontSize: '4.5rem', color: 'white', margin: 0, lineHeight: 1, display: 'flex', alignItems: 'baseline', gap: '0.5rem' }}>
@@ -144,8 +177,8 @@ export default function Emergency() {
                 <p style={{ color: 'var(--accent-light)', margin: 0, fontSize: '0.875rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                   <Activity size={14} /> Basic Life Support
                 </p>
-                <button className="btn" style={{ backgroundColor: 'white', color: 'black', marginTop: '1rem', padding: '0.5rem 1rem', fontSize: '0.875rem' }}>
-                  <Phone size={14} /> Contact Paramedic
+                <button className="btn" style={{ backgroundColor: 'white', color: 'black', marginTop: '1rem', padding: '0.5rem 1rem', fontSize: '0.875rem', pointerEvents: 'auto' }}>
+                  <Phone size={14} /> Contact Responder
                 </button>
               </div>
             )}
@@ -171,7 +204,7 @@ export default function Emergency() {
                 </div>
                 <div>
                   <h4 style={{ margin: 0, color: '#111827' }}>Distress Signal Received</h4>
-                  <p style={{ margin: 0, fontSize: '0.875rem', color: 'var(--text-muted)' }}>Maternal profile #A294 transmitted.</p>
+                  <p style={{ margin: 0, fontSize: '0.875rem', color: 'var(--text-muted)' }}>Health profile #A294 transmitted.</p>
                 </div>
               </div>
 
@@ -180,8 +213,8 @@ export default function Emergency() {
                    <Hospital size={12} color="white" />
                 </div>
                 <div>
-                  <h4 style={{ margin: 0, color: '#111827' }}>Locating Nearest Hospital</h4>
-                  <p style={{ margin: 0, fontSize: '0.875rem', color: 'var(--text-muted)' }}>Referral confirmed based on medical needs.</p>
+                  <h4 style={{ margin: 0, color: '#111827' }}>Locating Nearest Facility</h4>
+                  <p style={{ margin: 0, fontSize: '0.875rem', color: 'var(--text-muted)' }}>Referral confirmed based on critical needs.</p>
                 </div>
               </div>
 
@@ -190,7 +223,7 @@ export default function Emergency() {
                   <Car size={12} color="white" />
                 </div>
                 <div>
-                  <h4 style={{ margin: 0, color: dispatchStatus === 'en-route' ? 'var(--danger-color)' : '#111827' }}>Ambulance En-Route</h4>
+                  <h4 style={{ margin: 0, color: dispatchStatus === 'en-route' ? 'var(--danger-color)' : '#111827' }}>Responder En-Route</h4>
                   <p style={{ margin: 0, fontSize: '0.875rem', color: 'var(--text-muted)' }}>Keep pathways clear. Have ID ready.</p>
                 </div>
               </div>
@@ -201,9 +234,9 @@ export default function Emergency() {
           <div style={{ background: 'rgba(255,255,255,0.95)', borderRadius: '1.5rem', padding: '2rem', boxShadow: '0 10px 30px rgba(0,0,0,0.3)', borderTop: '4px solid #10b981' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1rem' }}>
               <div>
-                <h3 style={{ margin: 0, color: '#111827', fontSize: '1.25rem' }}>Lagos Island Maternity Hospital</h3>
+                <h3 style={{ margin: 0, color: '#111827', fontSize: '1.25rem' }}>General Hospital Ikeja</h3>
                 <p style={{ margin: '0.25rem 0 0 0', fontSize: '0.875rem', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
-                  <Navigation size={14} /> Broad Street (4.2km away)
+                  <Navigation size={14} /> Mobolaji Bank Anthony (1.2km away)
                 </p>
               </div>
               <div style={{ backgroundColor: '#ecfdf5', color: '#059669', padding: '0.25rem 0.75rem', borderRadius: 'var(--radius-full)', fontSize: '0.75rem', fontWeight: 700 }}>
@@ -213,30 +246,30 @@ export default function Emergency() {
             
             <div style={{ backgroundColor: '#f9fafb', border: '1px solid #e5e7eb', borderRadius: 'var(--radius-md)', padding: '1.25rem', marginTop: '1.5rem' }}>
               <h4 style={{ margin: '0 0 1rem 0', fontSize: '0.875rem', textTransform: 'uppercase', letterSpacing: '0.5px', color: '#6b7280', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                 <HeartPulse size={16} /> Why this hospital was selected:
+                 <HeartPulse size={16} /> Facility Readiness:
               </h4>
               
               <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                 <li style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '0.875rem', color: '#111827', fontWeight: 500 }}>
                   <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                     <div style={{ width: '8px', height: '8px', backgroundColor: '#10b981', borderRadius: '50%' }} />
-                    Level 3 Maternity Center
+                    Level 1 Trauma Center
                   </span>
                   <span style={{ color: '#10b981', fontSize: '0.75rem' }}>Confirmed</span>
                 </li>
                 <li style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '0.875rem', color: '#111827', fontWeight: 500 }}>
                   <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                     <div style={{ width: '8px', height: '8px', backgroundColor: '#10b981', borderRadius: '50%' }} />
-                    Blood Bank Available
+                    Blood Bank
                   </span>
                   <span style={{ color: '#10b981', fontSize: '0.75rem' }}>In Stock</span>
                 </li>
                 <li style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '0.875rem', color: '#111827', fontWeight: 500 }}>
                   <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                     <div style={{ width: '8px', height: '8px', backgroundColor: '#10b981', borderRadius: '50%' }} />
-                    NICU Ready 
+                    ER Capacity 
                   </span>
-                  <span style={{ color: '#10b981', fontSize: '0.75rem' }}>2 Beds Empty</span>
+                  <span style={{ color: '#10b981', fontSize: '0.75rem' }}>High Availability</span>
                 </li>
               </ul>
             </div>

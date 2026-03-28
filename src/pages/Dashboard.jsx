@@ -2,7 +2,7 @@ import React from 'react';
 import { PhoneCall, Heart, CalendarHeart, Sparkles, MapPin, Syringe, Info, ArrowRight, MessageSquare, Stethoscope, User } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
-export default function Dashboard({ setCurrentPage }) {
+export default function Dashboard({ setCurrentPage, setEmergencyType }) {
   const { currentUser } = useAuth();
   return (
     <div className="main-content">
@@ -28,7 +28,7 @@ export default function Dashboard({ setCurrentPage }) {
           <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
             <button 
               style={{ flex: 1, minWidth: '150px', padding: '1.5rem', backgroundColor: '#fee2e2', border: '2px solid #ef4444', borderRadius: 'var(--radius-lg)', cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.75rem', transition: 'all 0.2s', color: '#991b1b', fontWeight: 700 }}
-              onClick={() => setCurrentPage('emergency')}
+              onClick={() => { setEmergencyType('medical'); setCurrentPage('emergency'); }}
             >
               <div style={{ backgroundColor: '#ef4444', color: 'white', padding: '1rem', borderRadius: '50%' }}>
                 <Stethoscope size={32} />
@@ -37,7 +37,7 @@ export default function Dashboard({ setCurrentPage }) {
             </button>
             <button 
               style={{ flex: 1, minWidth: '150px', padding: '1.5rem', backgroundColor: '#ffedd5', border: '2px solid #f97316', borderRadius: 'var(--radius-lg)', cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.75rem', transition: 'all 0.2s', color: '#9a3412', fontWeight: 700 }}
-              onClick={() => setCurrentPage('emergency')}
+              onClick={() => { setEmergencyType('fire'); setCurrentPage('emergency'); }}
             >
               <div style={{ backgroundColor: '#f97316', color: 'white', padding: '1rem', borderRadius: '50%' }}>
                 <Info size={32} />
@@ -46,7 +46,7 @@ export default function Dashboard({ setCurrentPage }) {
             </button>
             <button 
               style={{ flex: 1, minWidth: '150px', padding: '1.5rem', backgroundColor: '#e0f2fe', border: '2px solid #0ea5e9', borderRadius: 'var(--radius-lg)', cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.75rem', transition: 'all 0.2s', color: '#075985', fontWeight: 700 }}
-              onClick={() => setCurrentPage('emergency')}
+              onClick={() => { setEmergencyType('police'); setCurrentPage('emergency'); }}
             >
               <div style={{ backgroundColor: '#0ea5e9', color: 'white', padding: '1rem', borderRadius: '50%' }}>
                 <PhoneCall size={32} />
@@ -163,7 +163,7 @@ export default function Dashboard({ setCurrentPage }) {
               border: '2px solid transparent',
               boxShadow: 'var(--shadow-md)'
             }}
-            onClick={() => setCurrentPage('emergency')}
+            onClick={() => { setEmergencyType('medical'); setCurrentPage('emergency'); }}
           >
             <MapPin size={20} />
             Find Nearest Center
@@ -171,7 +171,7 @@ export default function Dashboard({ setCurrentPage }) {
           <button 
             className="btn btn-danger animate-pulse-danger"
             style={{ padding: '1rem 2rem', fontSize: '1.125rem' }}
-            onClick={() => setCurrentPage('emergency')}
+            onClick={() => { setEmergencyType('medical'); setCurrentPage('emergency'); }}
           >
             <PhoneCall size={24} />
             Call SOS Emergency

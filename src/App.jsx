@@ -18,6 +18,7 @@ import './index.css';
 
 function AppContent() {
   const [currentPage, setCurrentPage] = useState('onboarding');
+  const [emergencyType, setEmergencyType] = useState('medical'); // medical, fire, police
   const { currentUser, logout } = useAuth();
 
   function handleLogout() {
@@ -35,8 +36,8 @@ function AppContent() {
       )}
       
       {currentPage === 'onboarding' && <Onboarding setCurrentPage={setCurrentPage} />}
-      {currentPage === 'dashboard' && <Dashboard setCurrentPage={setCurrentPage} />}
-      {currentPage === 'emergency' && <Emergency />}
+      {currentPage === 'dashboard' && <Dashboard setCurrentPage={setCurrentPage} setEmergencyType={setEmergencyType} />}
+      {currentPage === 'emergency' && <Emergency emergencyType={emergencyType} />}
       {currentPage === 'records' && <Records />}
       {currentPage === 'consult' && <Consultation />}
       {currentPage === 'education' && <Education />}

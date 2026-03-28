@@ -96,7 +96,7 @@ export default function Onboarding({ setCurrentPage }) {
                   <User size={32} />
                 </div>
               </div>
-              <h1 style={{ textAlign: 'center', marginBottom: '0.5rem', color: '#2d3748' }}>Welcome to JARVIS</h1>
+              <h1 style={{ textAlign: 'center', marginBottom: '0.5rem', color: '#2d3748' }}>Welcome to JARVIS!!!</h1>
               <p style={{ textAlign: 'center', marginBottom: '2.5rem', fontSize: '1.125rem' }}>Let's personalize your care journey.</p>
               <div className="grid">
                 <div>
